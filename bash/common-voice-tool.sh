@@ -67,8 +67,8 @@ function main() {
 
 	# controlla se il file non esiste
 	if [[ ! -f $fileN ]]; then
-			echo "File non esistente!";
-		exit 1;
+			echo "File non esistente!"
+		exit 1
 	fi
 
 	# sfruttando wc si ricava il numero delle stringhe
@@ -77,7 +77,7 @@ function main() {
 	# stampa le informazioni "da conoscere"
 	echo
 	echo "Numero di righe: " "$rows"
-	pressEnter;
+	pressEnter
 
 	echo
 }
@@ -110,10 +110,10 @@ function checkLen () {
 function areStrsInRange() {
 	for ((i=1;$i<=$1;i++)){
 		# controlla lunghezza delle frasi
-		strLen $i;
-		l="$?";
+		strLen $i
+		l="$?"
 
-		checkLen "$l" $carMin $carMax;
+		checkLen "$l" $carMin $carMax
 	}
 }
 
@@ -128,7 +128,7 @@ function pressEnter() {
 function setDefaultValues() {
 	echo "I valori del range saranno impostati ai valori di default! (1-125)"
 	
-	pressEnter;
+	pressEnter
 
 	carMin=1
 	carMax=125
@@ -141,8 +141,8 @@ if [ $# -gt 3 ]; then
 fi
 
 if [ "$1" == "-h" -o "$1" == "-help" ];then
-	printHelp;
-	exit 1;
+	printHelp
+	exit 1
 fi
 
 function promptMaxMinUser() {
@@ -151,7 +151,7 @@ function promptMaxMinUser() {
 	read -p "Vuoi utilizzare i valori di default? [S/N]: " ris
 	
 	if [ "$ris" == "S" -o "$ris" == "s" ];then
-		setDefaultValues;
+		setDefaultValues
 	else
 		while [ "$rangeOk" = false ] ; do
 			read -p "Digita il valore minimo del range: " carMin
@@ -190,7 +190,7 @@ function chkPoint() {
 
 	# controlla ogni frase.
 	for ((i=1;i<=$rows;i++)) {
-		strLen $i;
+		strLen $i
 		
 		case "${str: -1}" in
 			'?'|'!'|'.'|'\ ')
@@ -204,6 +204,7 @@ function chkPoint() {
 					sed -i "${i}s/$/./" "$fileN"
 					# echo "Ultimo carattere: ${str: -1}" "Riga: $i"
 				fi
+
 				;;
 		esac
 	}
@@ -222,7 +223,7 @@ clear
 # acquisisce file da processare
 # memorizza in alcune variabili alcune info importanti
 # stampa informazioni utili
-main;
+main
 
 # a seconda degli argomenti passati effettua le diverse operazioni
 for var in "$@"
@@ -232,7 +233,7 @@ do
     	"-range")
 			echo "RANGE"
 			echo "--------"
-			promptMaxMinUser;
+			promptMaxMinUser
 			echo "Sono nel range?:"
 			areStrsInRange $rows;
 			echo
@@ -242,7 +243,7 @@ do
 		"-trim")
 			echo "TRIM"
 			echo "--------"
-			trimS $fileN;
+			trimS $fileN
 			echo "Spazi a fine riga eliminati correttamente!"
 			echo
 		;;
@@ -251,7 +252,7 @@ do
 		"-chkPoint")
 			echo "CHKPOINT"
 			echo "--------"
-			chkPoint .;
+			chkPoint .
 			echo
     	;;
     	
@@ -259,7 +260,7 @@ do
     	"-ac")
 			echo "AUTOCORREZIONE"
 			echo "---------------"
-			chkPoint . "$var";
+			chkPoint . "$var"
 			echo
 		;;
 
@@ -267,10 +268,10 @@ do
 		;;
     esac
 
-    pressEnter;
+    pressEnter
 done
 
-echo "Grazie per aver utilizzato common-voice-tool! ;)";
+echo "Grazie per aver utilizzato common-voice-tool! ;)"
 echo "Visita la pagina del progetto github.com/dag7dev/common-voice-tool"
 
-exit 0;
+exit 0
