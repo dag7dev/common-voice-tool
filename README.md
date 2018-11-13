@@ -1,19 +1,60 @@
 # common-voice-tool
+Common Voice Tool - CLI Tool <br>
+GUI - Coming soon!<br>
 
-# Perché questo tool?
-Il tool è stato creato per agevolare il lavoro con le stringhe di common voice.
+[[Click here for the Italian Version]](LEGGIMI.MD)
 
-# Cosa posso farci?
-Diverse operazioni, tra le quali:
-- controllare se il numero di caratteri di una stringa sia compreso in un range
-- eliminare gli spazi a fine frase
-- controllare quali righe non hanno il punto alla fine e aggiungerlo in caso non ci sia
+## Preliminary operations
 
-# Cosa sarà implementato in futuro?
-Alcune cose sono già in cantiere, ma sei libero di proporre!
+You need to clone this repo:
 
-# Mi lasci un tuo recapito?
-Puoi contattarmi qui su GitHub oppure sul mio indirizzo email (puoi trovarlo all'interno dei vari sorgenti)!
+```
+git clone https://github.com/dag7dev/common-voice-tool
+```
 
--------------------------------------------------------
-Grazie a Saverio Morelli (Sav22999) per l'idea di base!
+then
+
+```
+cd common-voice-tool
+```
+and use chmod to change permissions:
+
+```
+chmod 755 common-voice-tool.sh
+```
+
+## CLI
+
+```
+./common-voice-tool
+usage: ./common-voice-tool <options>
+  -h or -help
+    	Shows this message
+  -range or -chkLen
+    	Check if a row's length is in a range
+  -trim
+    	Trim whitespace at the end of the lines.
+  -chkPoint
+      Check if every file's row ends with a dot (doesn't replace it, just check).
+  -ac
+      Add a dot if a file's row is not ending with a dot.
+```
+
+## WIP
+
+Todo:
+- Localization
+- Split lines automatically
+- ~~Add check row's length while adding a dot at the end each row.~~ **DONE**
+
+## Can I contact you?
+Sure! You can found my email address inside source code!<br>
+You can also contact me here, on GitHub!<br>
+Let me know if you love this software or if it has something to fix!<br>
+
+## Why this tool?
+This tool was meant for making faster working with common-voice strings.<br>
+It can help you in checking length, adding full stop (when needed) and other several useful things.<br>
+
+## How can I help you?
+Submit issues and give me more ideas about implementing new features! :) <br>
