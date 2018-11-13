@@ -25,35 +25,19 @@ function printHelp(){
 	echo "common-voice-tool"
 	echo "-----------------"
 	echo "Copyright (C) 2018 dag7"
-	echo 
-	echo "Descrizione:"
 	echo "-----------------"
-	echo "Consente di gestire le stringhe in un file."
-	echo "È possibile lanciare lo script con diversi parametri"
-	echo "a seconda dell'operazione che si vuole svolgere."
-	echo "È stato creato principalmente per coloro che vogliono dare una mano "
-	echo "a contribuire nel progetto Common Voice (tuttavia si può liberamente"
-	echo "utilizzare a seconda dei propri scopi)."
-	echo 
-	echo "Parametri:"
-	echo "-----------------"
-	echo "Lo script può essere lanciato con diversi parametri."
-	echo "Se lo script verra' lanciato senza parametri verrà effettuato"
-	echo "solo il controllo di ogni riga con i valori di default."
-	echo
-	echo "-h o -help    -> visualizza questa breve guida"
-	echo
-	echo "-range o -chkLen    -> abilita il controllo del numero di caratteri"
-	echo "                       in una riga di un file (se compreso"
-	echo "                       in un range poi definito)"
-	echo 
-	echo "-trim         -> elimina gli spazi alla fine di ogni frase"
-	echo
-	echo "-chkPoint     -> controlla e stampa il numero di riga delle frasi"
-	echo "                 sprovviste di un punto come ultimo carattere"
-	echo
-	echo "-ac           -> aggiunge un punto alla fine delle righe sprovviste"
-	echo "                 di esso"
+	echo "utilizzo: ./common-voice-tool <options>"
+	echo "   -h or -help"
+	echo "       Mostra questo messaggio"
+	echo "   -range or -chkLen"
+	echo "      Controlla se la lunghezza della stringa è in un range."
+	echo "   -trim"
+	echo "      Elimina gli spazi bianchi ' ' alla fine di ogni riga."
+	echo "   -chkPoint"
+	echo "      Controlla se ogni riga di un file termina con un punto"
+	echo "      (non lo sostituisce, controlla e basta!)"
+	echo "   -ac"
+	echo "      Aggiunge un punto se il file non termina con un punto."
 }
 
 
@@ -82,13 +66,12 @@ function main() {
 	echo
 }
 
-# data una stringa in input ricava la lunghezza della stringa
+# dato numero di stringa  in input ricava la lunghezza della stringa
 # ritorna la lunghezza della stringa
 function strLen () {
 	str=`sed "$1q;d" $fileN`
-	
+
 	len=${#str}
-	echo "LEN:$len"
 	return $len
 }
 
@@ -98,10 +81,10 @@ function strLen () {
 # o inferiori al range e il numero di riga
 function checkLen () {
 	if [ $1 -gt $3 ]; then
-		echo " - Riga: $i - ""Stringa troppo lunga! Caratteri superiori al massimo consentito:" $(( $1-$3 ))
+		echo " - Riga: $i - " "Stringa troppo lunga! Caratteri superiori al massimo consentito:" $(( $1-$3 ))
 	else
 		if [ $1 -lt $2 ];then
-			echo " - Riga: $i - ""Stringa troppo lunga! Caratteri superiori al massimo consentito:" $(( $2-$1 ))
+			echo " - Riga: $i - " "Stringa troppo lunga! Caratteri superiori al massimo consentito:" $(( $2-$1 ))
 		fi
 	fi
 }
@@ -127,7 +110,7 @@ function pressEnter() {
 # imposta il valore del range ai valori di default
 function setDefaultValues() {
 	echo "I valori del range saranno impostati ai valori di default! (1-125)"
-	
+
 	pressEnter
 
 	carMin=1
@@ -140,7 +123,7 @@ if [ $# -gt 3 ]; then
     exit 1
 fi
 
-if [ "$1" == "-h" -o "$1" == "-help" ];then
+if [ -z "$1" -o "$1" == "-h" -o "$1" == "-help" ];then
 	printHelp
 	exit 1
 fi
@@ -149,13 +132,18 @@ function promptMaxMinUser() {
 	rangeOk=false
 
 	read -p "Vuoi utilizzare i valori di default? [S/N]: " ris
-	
-	if [ "$ris" == "S" -o "$ris" == "s" ];then
-		setDefaultValues
-	else
+
+	if [ "$ris" != "S" -a "$ris" != "s" -a -n "$ris" ];then
 		while [ "$rangeOk" = false ] ; do
-			read -p "Digita il valore minimo del range: " carMin
-			read -p "Digita il valore massimo del range: " carMax
+			while [ -z $carMin ]
+			do
+				read -p "Digita il valore minimo del range: " carMin
+			done
+
+			while [ -z $carMax ]
+			do
+				read -p "Digita il valore massimo del range: " carMax
+			done
 
 			if [ $carMin -lt 1 -o $carMin -ge $carMax ] ; then
 				clear
@@ -164,6 +152,8 @@ function promptMaxMinUser() {
 				rangeOk=true
 			fi
 		done
+	else
+		setDefaultValues
 	fi
 }
 
@@ -191,21 +181,26 @@ function chkPoint() {
 	# controlla ogni frase.
 	for ((i=1;i<=$rows;i++)) {
 		strLen $i
+		ris="$?"
 		
-		case "${str: -1}" in
-			'?'|'!'|'.'|'\ ')
-				;;
-			*)
-				echo -n "- Riga: $i -"
-				
-				# Se non presente il punto a fine frase lo aggiunge.
-				if [ "$2" == "-ac" ];then
-					echo " Aggiungo..."
-					sed -i "${i}s/$/./" "$fileN"
-				fi
+		
+		if [ $ris -lt $carMax ];then
 
-				;;
-		esac
+			case "${str: -1}" in
+				'?'|'!'|'.'|'\ ')
+					;;
+				*)
+					echo -n "- Riga: $i -"
+
+					# Se non presente il punto a fine frase lo aggiunge.
+					if [ "$2" == "-ac" ];then
+						echo " Aggiungo..."
+						sed -i "${i}s/$/./" "$fileN"
+					fi
+
+					;;
+			esac
+		fi
 	}
 }
 
