@@ -17,9 +17,12 @@ dai
 ```
 cd common-voice-tool
 ```
-e dai allo script i permessi:
+Se vuoi usare la versione in BASH
+- spostati nella cartella BASH
+- dai allo script i permessi:
 
 ```
+cd BASH
 chmod 755 common-voice-tool.sh
 ```
 
