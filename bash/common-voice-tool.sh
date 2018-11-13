@@ -43,9 +43,9 @@ function printHelp(){
 	echo
 	echo "-h o -help    -> visualizza questa breve guida"
 	echo
-	echo "-range        -> abilita il controllo del numero di caratteri"
-	echo "                 in una riga di un file (se compreso"
-	echo "                 in un range poi definito)"
+	echo "-range o -chkLen    -> abilita il controllo del numero di caratteri"
+	echo "                       in una riga di un file (se compreso"
+	echo "                       in un range poi definito)"
 	echo 
 	echo "-trim         -> elimina gli spazi alla fine di ogni frase"
 	echo
@@ -85,10 +85,10 @@ function main() {
 # data una stringa in input ricava la lunghezza della stringa
 # ritorna la lunghezza della stringa
 function strLen () {
-	str=`sed -e "$1q;d" $fileN`
+	str=`sed "$1q;d" $fileN`
 	
 	len=${#str}
-	
+	echo "LEN:$len"
 	return $len
 }
 
@@ -173,7 +173,7 @@ function promptMaxMinUser() {
 # si stampano ultimo  carattere e nRiga della frase
 function chkPoint() {
 	# definizione del carattere
-	car=$1
+	car="$1"
 
 	echo
 	echo -n "Opzione autocorreggi: "
@@ -202,7 +202,6 @@ function chkPoint() {
 				if [ "$2" == "-ac" ];then
 					echo " Aggiungo..."
 					sed -i "${i}s/$/./" "$fileN"
-					# echo "Ultimo carattere: ${str: -1}" "Riga: $i"
 				fi
 
 				;;
@@ -230,7 +229,7 @@ for var in "$@"
 do
     case $var in
     	# stringhe sono nel range
-    	"-range")
+    	"-range"|"-chkLen")
 			echo "RANGE"
 			echo "--------"
 			promptMaxMinUser
