@@ -2,7 +2,7 @@
 Common Voice Tool - CLI Tool <br>
 GUI - Coming soon!<br>
 
-[[Click here for the English Version]](README.MD)
+[[Click here for the English Version]](README.md)
 
 ## Operazioni preliminari
 
