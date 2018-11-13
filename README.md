@@ -39,6 +39,9 @@ usage: ./common-voice-tool <options>
   -ac
       Add a dot if a file's row is not ending with a dot.
 ```
+## NOTES
+This script MUST be used JUST with plain TEXT files.<br>
+
 
 ## WIP
 
