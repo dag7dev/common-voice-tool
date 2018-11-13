@@ -17,9 +17,12 @@ then
 ```
 cd common-voice-tool
 ```
-and use chmod to change permissions:
+and if you want to use the BASH version
+- move to the bash folder
+- use chmod to change permissions
 
 ```
+cd BASH
 chmod 755 common-voice-tool.sh
 ```
 
