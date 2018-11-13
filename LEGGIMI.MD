@@ -40,8 +40,7 @@ utilizzo: ./common-voice-tool <options>
       Aggiunge un punto se il file non termina con un punto.
 ```
 ## NOTE
-Il tool è stato testato SOLO con file di testo.
-Se dovesse funzionare con un altro documento che abbia una qualsiasi estensione, potete segnalarmelo!
+Il tool è stato testato (dovreste quindi usarlo) SOLO con file di testo (txt o senza estensione se siete sono Linux).
 
 ## WIP
 
