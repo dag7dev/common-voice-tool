@@ -12,19 +12,15 @@ You need to clone this repo:
 git clone https://github.com/dag7dev/common-voice-tool
 ```
 
-then
+## BASH VERSION
 
 ```
 cd common-voice-tool
-```
-and if you want to use the BASH version
-- move to the bash folder
-- use chmod to change permissions
-
-```
 cd BASH
-chmod 755 common-voice-tool.sh
+sudo chmod 755 common-voice-tool.sh
 ```
+
+You can finally run this script ;)
 
 ## CLI
 
@@ -32,7 +28,7 @@ chmod 755 common-voice-tool.sh
 ./common-voice-tool
 usage: ./common-voice-tool <options>
   -h or -help
-    	Shows this message
+    	Show this message
   -range or -chkLen
     	Check if a row's length is in a range
   -trim
@@ -41,6 +37,8 @@ usage: ./common-voice-tool <options>
       Check if every file's row ends with a dot (doesn't replace it, just check).
   -ac
       Add a dot if a file's row is not ending with a dot.
+  -no-empty
+      Remove all the empty lines.
 ```
 ## NOTES
 This script MUST be used JUST with plain TEXT files.<br>
@@ -51,7 +49,9 @@ This script MUST be used JUST with plain TEXT files.<br>
 Todo:
 - Localization
 - Split lines automatically
-- ~~Add check row's length while adding a dot at the end each row.~~ **DONE**
+- Capitalize all first letters at the begin of each row
+- ~~Remove empty lines.~~ **DONE**
+- ~~Add check row's length while adding a dot at the end of each row.~~ **DONE**
 
 ## Can I contact you?
 Sure! You can found my email address inside source code!<br>
