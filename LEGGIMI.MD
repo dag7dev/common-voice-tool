@@ -12,19 +12,15 @@ Clona la repo:
 git clone https://github.com/dag7dev/common-voice-tool
 ```
 
-dai
+## Versione BASH
 
 ```
 cd common-voice-tool
+cd bash
+sudo chmod 755 common-voice-tool.sh
 ```
-Se vuoi usare la versione in BASH
-- spostati nella cartella BASH
-- dai allo script i permessi:
 
-```
-cd BASH
-chmod 755 common-voice-tool.sh
-```
+Ora potrai finalmente lanciare lo script!
 
 ## CLI
 
@@ -41,6 +37,8 @@ utilizzo: ./common-voice-tool <options>
       Controlla se ogni riga di un file termina con un punto (non lo sostituisce, controlla e basta!)
   -ac
       Aggiunge un punto se il file non termina con un punto.
+  -no-empty
+      Elimina tutte le righe vuote.
 ```
 ## NOTE
 Il tool è stato testato (dovreste quindi usarlo) SOLO con file di testo (txt o senza estensione se siete sotto Linux).
@@ -50,7 +48,9 @@ Il tool è stato testato (dovreste quindi usarlo) SOLO con file di testo (txt o 
 Todo:
 - Localizzazione -> traduzione in altre lingue
 - Dividere le linee a partire da un testo automaticamente
+- Rendere tutte le iniziali delle frasi maiuscole
 - ~~Aggiungere il controllo dei caratteri prima di aggiungere un punto.~~ **FATTO**
+- ~~Eliminare tutte le righe vuote.~~ **FATTO**
 
 ## Posso contattarti o avere un tuo recapito?
 Certo! Trovi la mia email nei vari codici sorgente!<br>
