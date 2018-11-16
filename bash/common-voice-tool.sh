@@ -38,6 +38,8 @@ function printHelp(){
 	echo "      (non lo sostituisce, controlla e basta!)"
 	echo "   -ac"
 	echo "      Aggiunge un punto se il file non termina con un punto."
+	echo "   -no-empty"
+	echo "      Elimina tutte le righe vuote."
 }
 
 
@@ -63,6 +65,8 @@ function main() {
 	echo "Numero di righe: " "$rows"
 	pressEnter
 
+	setDefaultValues
+	
 	echo
 }
 
@@ -72,6 +76,7 @@ function strLen () {
 	str=`sed "$1q;d" $fileN`
 
 	len=${#str}
+	
 	return $len
 }
 
@@ -84,7 +89,7 @@ function checkLen () {
 		echo " - Riga: $i - " "Stringa troppo lunga! Caratteri superiori al massimo consentito:" $(( $1-$3 ))
 	else
 		if [ $1 -lt $2 ];then
-			echo " - Riga: $i - " "Stringa troppo lunga! Caratteri superiori al massimo consentito:" $(( $2-$1 ))
+			echo " - Riga: $i - " "Stringa troppo lunga! Caratteri inferiori al massimo consentito:" $(( $2-$1 ))
 		fi
 	fi
 }
@@ -94,9 +99,7 @@ function areStrsInRange() {
 	for ((i=1;$i<=$1;i++)){
 		# controlla lunghezza delle frasi
 		strLen $i
-		l="$?"
-
-		checkLen "$l" $carMin $carMax
+		checkLen $len $carMin $carMax
 	}
 }
 
@@ -109,10 +112,6 @@ function pressEnter() {
 
 # imposta il valore del range ai valori di default
 function setDefaultValues() {
-	echo "I valori del range saranno impostati ai valori di default! (1-125)"
-
-	pressEnter
-
 	carMin=1
 	carMax=125
 }
@@ -135,17 +134,19 @@ function promptMaxMinUser() {
 
 	if [ "$ris" != "S" -a "$ris" != "s" -a -n "$ris" ];then
 		while [ "$rangeOk" = false ] ; do
-			while [ -z $carMin ]
+			carMin=""
+			carMax=""
+######################################################
+			while [[ $carMin -lt 1 || -z $carMin ]]
 			do
 				read -p "Digita il valore minimo del range: " carMin
 			done
-
-			while [ -z $carMax ]
+			while [[ $carMax -lt 1 || -z $carMax ]]
 			do
 				read -p "Digita il valore massimo del range: " carMax
 			done
-
-			if [ $carMin -lt 1 -o $carMin -ge $carMax ] ; then
+######################################################
+			if [ $carMin -ge $carMax -o $carMin == $carMax ] ; then
 				clear
 				echo "Valori inseriti non validi!"
 			else
@@ -153,7 +154,9 @@ function promptMaxMinUser() {
 			fi
 		done
 	else
+		echo "I valori del range saranno impostati ai valori di default! (1-125)"
 		setDefaultValues
+        pressEnter
 	fi
 }
 
@@ -181,16 +184,14 @@ function chkPoint() {
 	# controlla ogni frase.
 	for ((i=1;i<=$rows;i++)) {
 		strLen $i
-		ris="$?"
 		
-		
-		if [ $ris -lt $carMax ];then
+		if [ $len -lt $carMax ];then
 
 			case "${str: -1}" in
 				'?'|'!'|'.'|'\ ')
 					;;
 				*)
-					echo -n "- Riga: $i -"
+					echo "- Riga: $i -"
 
 					# Se non presente il punto a fine frase lo aggiunge.
 					if [ "$2" == "-ac" ];then
@@ -205,8 +206,14 @@ function chkPoint() {
 }
 
 # dato nome di un file trimma gli spazi bianchi alla fine di ogni riga
-function trimS () {
-	sed -i 's/\s*$//' $1
+function trim () {
+	if [ "$1" == "-no-empty" ];then
+		# trim righe vuote
+		sed -i '/^$/d' $fileN
+	else
+		# trim spazi fine frase
+		sed -i 's/\s*$//' $fileN
+	fi
 }
 
 #######################
@@ -237,11 +244,19 @@ do
 		"-trim")
 			echo "TRIM"
 			echo "--------"
-			trimS $fileN
+			trim $fileN
 			echo "Spazi a fine riga eliminati correttamente!"
 			echo
 		;;
 		
+		"-no-empty")
+			echo "NO-EMPTY"
+			echo "--------"
+			trim $fileN $var
+			echo "Righe vuote eliminate correttamente!"
+			echo
+		;;
+
 		# controllare il punto a fine frase
 		"-chkPoint")
 			echo "CHKPOINT"
