@@ -20,7 +20,7 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-
+# stampa informazioni circa l'utilizzo
 function printHelp(){
 	echo "common-voice-tool"
 	echo "-----------------"
@@ -89,7 +89,7 @@ function checkLen () {
 		echo " - Riga: $i - " "Stringa troppo lunga! Caratteri superiori al massimo consentito:" $(( $1-$3 ))
 	else
 		if [ $1 -lt $2 ];then
-			echo " - Riga: $i - " "Stringa troppo lunga! Caratteri inferiori al massimo consentito:" $(( $2-$1 ))
+			echo " - Riga: $i - " "Stringa troppo corta! Caratteri inferiori al massimo consentito:" $(( $2-$1 ))
 		fi
 	fi
 }
@@ -185,11 +185,12 @@ function chkPoint() {
 	for ((i=1;i<=$rows;i++)) {
 		strLen $i
 		
-		if [ $len -lt $carMax ];then
+		if [ $len -lt $carMax ] && [ $len -gt $carMin ];then
 
 			case "${str: -1}" in
-				'?'|'!'|'.'|'\ ')
-					;;
+				'?'|'!'|'.'|';'|' ')
+				;;
+				
 				*)
 					echo "- Riga: $i -"
 
@@ -212,7 +213,7 @@ function trim () {
 		sed -i '/^$/d' $fileN
 	else
 		# trim spazi fine frase
-		sed -i 's/\s*$//' $fileN
+		sed -i 's/\s*[[:blank:]]//' $fileN
 	fi
 }
 
@@ -274,6 +275,9 @@ do
 		;;
 
 		*)
+			echo "L'OPZIONE: $var non esiste!"
+			echo "SICURO DI AVERLA SCRITTA BENE? ;)"
+			pressEnter
 		;;
     esac
 
