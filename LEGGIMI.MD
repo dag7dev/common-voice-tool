@@ -39,16 +39,25 @@ utilizzo: ./common-voice-tool <options>
       Aggiunge un punto se il file non termina con un punto.
   -no-empty
       Elimina tutte le righe vuote.
+  -capitalize
+      Rende maiuscola la prima lettera di ogni frase.
 ```
 ## NOTE
 Il tool è stato testato (dovreste quindi usarlo) SOLO con file di testo (txt o senza estensione se siete sotto Linux).
+Puoi cambiare lingua selezionando il file contenuto nella cartella "lang".<br>
+La cartella 'lang' deve sempre esistere e deve esserci sempre almeno un file per funzionare.
+
+## Che branch devo usare?
+La beta l'aggiorno spesso e non è stabile.<br>
+La master ho deciso che finchè non uscirà una versione stabile della beta rimarrà così.<br>
+Ti consiglierei di utilizzare la beta ;)
 
 ## WIP
 
 Todo:
-- Localizzazione -> traduzione in altre lingue
 - Dividere le linee a partire da un testo automaticamente
-- Rendere tutte le iniziali delle frasi maiuscole
+- ~~Localizzazione -> traduzione in altre lingue~~ **FATTO**
+- ~~Rendere tutte le iniziali delle frasi maiuscole~~ **FATTO**
 - ~~Aggiungere il controllo dei caratteri prima di aggiungere un punto.~~ **FATTO**
 - ~~Eliminare tutte le righe vuote.~~ **FATTO**
 
