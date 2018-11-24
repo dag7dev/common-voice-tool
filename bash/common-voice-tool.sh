@@ -20,40 +20,61 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-# stampa informazioni circa l'utilizzo
+# declaration of array for multilanguage
+declare -a language
+
 function printHelp(){
-	echo "common-voice-tool"
-	echo "-----------------"
-	echo "Copyright (C) 2018 dag7"
-	echo "-----------------"
-	echo "utilizzo: ./common-voice-tool <options>"
-	echo "   -h or -help"
-	echo "       Mostra questo messaggio"
-	echo "   -range or -chkLen"
-	echo "      Controlla se la lunghezza della stringa è in un range."
-	echo "   -trim"
-	echo "      Elimina gli spazi bianchi ' ' alla fine di ogni riga."
-	echo "   -chkPoint"
-	echo "      Controlla se ogni riga di un file termina con un punto"
-	echo "      (non lo sostituisce, controlla e basta!)"
-	echo "   -ac"
-	echo "      Aggiunge un punto se il file non termina con un punto."
-	echo "   -no-empty"
-	echo "      Elimina tutte le righe vuote."
+	for i in `seq 1 18`
+	do
+		echo -e ${language["$i"]}
+	done
+
+	echo -e ${language[47]}
+	echo -e ${language[48]}
 }
 
+function chooseLanguage(){
+	# LANGUAGE EXPERIMENTAL
+	mkdir -p lang
+
+	# l'utente sceglie che lingua utilizzare
+	echo "Choose your language:"
+
+	cd lang
+
+	ls | cut -d ' ' -f9
+
+	read -e -p "Your choice:" fileL
+
+	# controlla se il file non esiste
+	if [[ ! -f "$fileL" ]]; then
+		echo "File not found! Exiting..."
+	exit 1
+	fi
+
+	# rows in translation file
+	rowsLanguage=`wc -l $fileL | cut -d ' ' -f1`
+
+	#load array with every row of the specified file
+	for i in `seq 1 $rowsLanguage`
+	do
+		language[$i]=`sed -n "$i"p "$fileL"`
+	done
+
+	cd ..
+}
 
 function main() {
-	echo "Benvenuto in common-voice-tool!"
-	echo "-------------------------------"
+	echo ${language[19]}
+	echo ${language[20]}
 	echo
 
 	ls -l
-	read -e -p "Seleziona il tuo file:" fileN
+	read -e -p "${language[21]}" fileN
 
 	# controlla se il file non esiste
 	if [[ ! -f $fileN ]]; then
-			echo "File non esistente!"
+			echo "${language[22]}"
 		exit 1
 	fi
 
@@ -62,7 +83,7 @@ function main() {
 
 	# stampa le informazioni "da conoscere"
 	echo
-	echo "Numero di righe: " "$rows"
+	echo "${language[23]}$rows"
 	pressEnter
 
 	setDefaultValues
@@ -76,8 +97,6 @@ function strLen () {
 	str=`sed "$1q;d" $fileN`
 
 	len=${#str}
-	
-	return $len
 }
 
 # data lunghezza in input
@@ -86,10 +105,10 @@ function strLen () {
 # o inferiori al range e il numero di riga
 function checkLen () {
 	if [ $1 -gt $3 ]; then
-		echo " - Riga: $i - " "Stringa troppo lunga! Caratteri superiori al massimo consentito:" $(( $1-$3 ))
+		echo "${language[24]}$i - ${language[26]}" $(( $1-$3 ))
 	else
 		if [ $1 -lt $2 ];then
-			echo " - Riga: $i - " "Stringa troppo corta! Caratteri inferiori al massimo consentito:" $(( $2-$1 ))
+			echo "${language[24]}$i - ${language[27]}" $(( $2-$1 ))
 		fi
 	fi
 }
@@ -106,7 +125,7 @@ function areStrsInRange() {
 # acquisisce un carattere e mostra "premi invio per continuare"
 # pulisce la console dopo aver premuto enter
 function pressEnter() {
-	read -p "Premi [INVIO] per continuare"
+	read -p "${language[28]}"
 	clear
 }
 
@@ -116,21 +135,10 @@ function setDefaultValues() {
 	carMax=125
 }
 
-if [ $# -gt 3 ]; then
-	echo "Sintassi errata!"
-    echo "eseguire: ./common-voice-tool -h"
-    exit 1
-fi
-
-if [ -z "$1" -o "$1" == "-h" -o "$1" == "-help" ];then
-	printHelp
-	exit 1
-fi
-
 function promptMaxMinUser() {
 	rangeOk=false
 
-	read -p "Vuoi utilizzare i valori di default? [S/N]: " ris
+	read -p "${language[31]}" ris
 
 	if [ "$ris" != "S" -a "$ris" != "s" -a -n "$ris" ];then
 		while [ "$rangeOk" = false ] ; do
@@ -139,22 +147,22 @@ function promptMaxMinUser() {
 ######################################################
 			while [[ $carMin -lt 1 || -z $carMin ]]
 			do
-				read -p "Digita il valore minimo del range: " carMin
+				read -p "${language[32]}" carMin
 			done
 			while [[ $carMax -lt 1 || -z $carMax ]]
 			do
-				read -p "Digita il valore massimo del range: " carMax
+				read -p "${language[33]}" carMax
 			done
 ######################################################
 			if [ $carMin -ge $carMax -o $carMin == $carMax ] ; then
 				clear
-				echo "Valori inseriti non validi!"
+				echo "${language[34]}"
 			else
 				rangeOk=true
 			fi
 		done
 	else
-		echo "I valori del range saranno impostati ai valori di default! (1-125)"
+		echo "${language[35]}"
 		setDefaultValues
         pressEnter
 	fi
@@ -169,7 +177,7 @@ function chkPoint() {
 	car="$1"
 
 	echo
-	echo -n "Opzione autocorreggi: "
+	echo -n "${language[36]}"
 	if [ "$2" == "-ac" ];then
 		echo "ON"
 	else
@@ -178,7 +186,7 @@ function chkPoint() {
 
 	echo 
 
-	echo -e "Il punto deve essere aggiunto alla:"
+	echo -e "${language[37]}"
 
 
 	# controlla ogni frase.
@@ -192,11 +200,11 @@ function chkPoint() {
 				;;
 				
 				*)
-					echo "- Riga: $i -"
+					echo "${language[24]}$i -"
 
 					# Se non presente il punto a fine frase lo aggiunge.
 					if [ "$2" == "-ac" ];then
-						echo " Aggiungo..."
+						echo "${language[38]}"
 						sed -i "${i}s/$/./" "$fileN"
 					fi
 
@@ -217,9 +225,63 @@ function trim () {
 	fi
 }
 
+# given a string: capitalize it
+function capitalize(){
+	strCap=${1^}
+}
+
+function capitalizeF(){
+	for ((i=1;$i<=$rows;i++)){
+		strLen $i
+		capitalize "$str"
+
+		echo "$strCap" >> "$fileN".tmp
+	}
+
+	mv "$fileN".tmp "$fileN"
+}
+
 #######################
 # LAUNCHER PRINCIPALE #
 #######################
+# check folder and file for strings (translation)
+if [ ! -d "lang" ];then
+	echo "Directory 'lang' not found!"
+	echo
+	echo "You need to have a 'lang' directory into the folder where you are running"
+	echo "this script and at least one translation file"
+	echo
+	echo "You can retrieve official translation files by visiting:"
+	echo "https://github.com/dag7dev/common-voice-tool"
+	
+	exit 1
+fi
+
+if [ -z "$(ls -A lang)" ];then
+	echo "Error! Please download a translation file for this tool"
+	echo "and put it in 'lang' folder!"
+	echo ""
+	echo "You can retrieve official translation files by visiting:"
+	echo "https://github.com/dag7dev/common-voice-tool"
+	exit 1
+fi
+
+if [ -z "$1" -o "$1" == "-h" -o "$1" == "-help" ];then
+	clear
+
+	chooseLanguage
+
+	clear
+
+	printHelp
+
+	exit 1
+fi
+
+clear
+
+chooseLanguage
+
 clear
 
 # acquisisce file da processare
@@ -236,7 +298,7 @@ do
 			echo "RANGE"
 			echo "--------"
 			promptMaxMinUser
-			echo "Sono nel range?:"
+			echo "${language[39]}"
 			areStrsInRange $rows;
 			echo
 		;;
@@ -246,7 +308,7 @@ do
 			echo "TRIM"
 			echo "--------"
 			trim $fileN
-			echo "Spazi a fine riga eliminati correttamente!"
+			echo "${language[40]}"
 			echo
 		;;
 		
@@ -254,7 +316,7 @@ do
 			echo "NO-EMPTY"
 			echo "--------"
 			trim $fileN $var
-			echo "Righe vuote eliminate correttamente!"
+			echo "${language[41]}"
 			echo
 		;;
 
@@ -274,17 +336,24 @@ do
 			echo
 		;;
 
+		# capitalizza
+		"-capitalize")
+			echo "CAPITALIZE"
+			echo "---------------"
+			capitalizeF
+			echo
+		;;
+		
 		*)
-			echo "L'OPZIONE: $var non esiste!"
-			echo "SICURO DI AVERLA SCRITTA BENE? ;)"
-			pressEnter
+			echo "${language[42]} $var ${language[43]}"
+			echo "${language[44]}"
 		;;
     esac
 
     pressEnter
 done
 
-echo "Grazie per aver utilizzato common-voice-tool! ;)"
-echo "Visita la pagina del progetto github.com/dag7dev/common-voice-tool"
+echo "${language[45]}"
+echo "${language[46]}"
 
 exit 0
