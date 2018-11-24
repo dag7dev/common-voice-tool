@@ -39,17 +39,25 @@ usage: ./common-voice-tool <options>
       Add a dot if a file's row is not ending with a dot.
   -no-empty
       Remove all the empty lines.
+  -capitalize
+      Capitalize every single character at the beginning of every sentence.
 ```
 ## NOTES
 This script MUST be used JUST with plain TEXT files.<br>
+You can select your language by selecting country-code when you run the script.
+'lang' folder must exists and at least one file must be onto the folder.
 
+## What branch should I use?
+The beta one is "experimental", I update everytime this branch.
+The master one, even though I thought about using just the master one, it is unstable.
+Until the beta becomes stable, I won't push to master and there won't be a release.
 
 ## WIP
 
 Todo:
-- Localization
 - Split lines automatically
-- Capitalize all first letters at the begin of each row
+- ~~Localization~~ **DONE**
+- ~~Capitalize all first letters at the begin of each row~~ **DONE**
 - ~~Remove empty lines.~~ **DONE**
 - ~~Add check row's length while adding a dot at the end of each row.~~ **DONE**
 
