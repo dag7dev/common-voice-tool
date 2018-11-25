@@ -48,7 +48,7 @@ function chooseLanguage(){
 
 	# controlla se il file non esiste
 	if [[ ! -f "$fileL" ]]; then
-		echo "File not found! Exiting..."
+		echo "Language file not found! Exiting..."
 	exit 1
 	fi
 
@@ -87,7 +87,7 @@ function main() {
 	pressEnter
 
 	setDefaultValues
-	
+
 	echo
 }
 
@@ -144,16 +144,17 @@ function promptMaxMinUser() {
 		while [ "$rangeOk" = false ] ; do
 			carMin=""
 			carMax=""
-######################################################
-			while [[ $carMin -lt 1 || -z $carMin ]]
-			do
+			
+			until [[ $carMin -gt 1 ]] && [[ ! -z $carMin ]] && [[ $carMin =~ ^-?[0-9]+$ ]]
+			do				
 				read -p "${language[32]}" carMin
 			done
-			while [[ $carMax -lt 1 || -z $carMax ]]
+
+			until [[ $carMax -gt 1 ]] && [[ ! -z $carMax ]] && [[ $carMax =~ ^-?[0-9]+$ ]]
 			do
 				read -p "${language[33]}" carMax
 			done
-######################################################
+
 			if [ $carMin -ge $carMax -o $carMin == $carMax ] ; then
 				clear
 				echo "${language[34]}"
@@ -215,13 +216,14 @@ function chkPoint() {
 }
 
 # dato nome di un file trimma gli spazi bianchi alla fine di ogni riga
+# se il secondo parametro e' noEmpty trimma le linee
 function trim () {
-	if [ "$1" == "-no-empty" ];then
+	if [ "$2" == "-noEmpty" ];then
 		# trim righe vuote
-		sed -i '/^$/d' $fileN
+		sed -i '/^\s*$/d' $1
 	else
 		# trim spazi fine frase
-		sed -i 's/\s*[[:blank:]]//' $fileN
+		sed -i 's/[ ]*$//' $1		
 	fi
 }
 
@@ -312,7 +314,7 @@ do
 			echo
 		;;
 		
-		"-no-empty")
+		"-noEmpty")
 			echo "NO-EMPTY"
 			echo "--------"
 			trim $fileN $var
