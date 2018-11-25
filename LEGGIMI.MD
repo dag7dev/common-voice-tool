@@ -67,19 +67,6 @@ Esempio:
 controllerà se la lunghezza di ogni riga è in un range e rimuoverà le righe vuote.<br>
 
 ## LISTA PARAMETRI DISPONIBILI
--range or -chkLen
-    	Controlla se la lunghezza della stringa è in un range.
-  -trim
-    	Elimina gli spazi bianchi ' ' alla fine di ogni riga.
-  -chkPoint
-      Controlla se ogni riga di un file termina con un punto.
-  -ac
-      Aggiunge un punto ad ogni riga del file se non termina con un punto.
-  -noEmpty
-      Elimina tutte le righe vuote.
-  -capitalize
-      Rende maiuscola la prima lettera di ogni frase.
-      
 Parametro | Cosa fa
 ------------ | -------------
 -h | mostra la lista dei parametri disponibili (come se lanciassi lo script senza parametri).
