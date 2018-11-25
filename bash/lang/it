@@ -14,7 +14,7 @@ utilizzo: ./common-voice-tool <options>
 \t\t(non lo sostituisce, controlla e basta!)
 \t-ac
 \t\tAggiunge un punto se il file non termina con un punto.
-\t-no-empty
+\t-noEmpty
 \t\tElimina tutte le righe vuote.
 Benvenuto in common-voice-tool!
 -------------------------------
