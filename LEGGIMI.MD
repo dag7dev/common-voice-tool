@@ -5,12 +5,20 @@ GUI - Coming soon!<br>
 [[Click here for the English Version]](README.md)
 
 ## Operazioni preliminari
+**ULTIMA VERSIONE**
+**BETA: v0.4.1**
 
 Clona la repo:
 
 ```
 git clone https://github.com/dag7dev/common-voice-tool
 ```
+
+Se vuoi provare la beta:
+```
+git clone --single-branch -b beta https://github.com/dag7dev/common-voice-tool
+```
+
 
 ## Versione BASH
 
@@ -23,7 +31,7 @@ sudo chmod 755 common-voice-tool.sh
 Ora potrai finalmente lanciare lo script!
 
 ## CLI
-
+Se lanci lo script senza alcun parametro avrai la lista dei parametri che potrai inserire:
 ```
 ./common-voice-tool
 utilizzo: ./common-voice-tool <options>
@@ -37,11 +45,52 @@ utilizzo: ./common-voice-tool <options>
       Controlla se ogni riga di un file termina con un punto (non lo sostituisce, controlla e basta!)
   -ac
       Aggiunge un punto se il file non termina con un punto.
-  -no-empty
+  -noEmpty
       Elimina tutte le righe vuote.
   -capitalize
       Rende maiuscola la prima lettera di ogni frase.
 ```
+Per lanciare questo script hai bisogno di lanciarlo con almeno un parametro.<br>
+Ad esempio: 
+```
+./common-voice-tool -range
+```
+controllerà se la lunghezza di ogni riga è in un range.<br>
+
+Non devi passare il nome del file sul quale andrai ad operare perché potrai selezionarlo una volta avviato lo script. <br>
+
+Puoi lanciare lo script con più parametri per eseguire più operazioni.<br>
+Esempio:
+```
+./common-voice-tool -range -noEmpty
+```
+controllerà se la lunghezza di ogni riga è in un range e rimuoverà le righe vuote.<br>
+
+## LISTA PARAMETRI DISPONIBILI
+-range or -chkLen
+    	Controlla se la lunghezza della stringa è in un range.
+  -trim
+    	Elimina gli spazi bianchi ' ' alla fine di ogni riga.
+  -chkPoint
+      Controlla se ogni riga di un file termina con un punto.
+  -ac
+      Aggiunge un punto ad ogni riga del file se non termina con un punto.
+  -noEmpty
+      Elimina tutte le righe vuote.
+  -capitalize
+      Rende maiuscola la prima lettera di ogni frase.
+      
+Parametro | Cosa fa
+------------ | -------------
+-h | mostra la lista dei parametri disponibili (come se lanciassi lo script senza parametri).
+-range | controlla la lunghezza di ogni riga del file
+-chkLen | come sopra
+-trim | Elimina gli spazi bianchi ' ' alla fine di ogni riga.
+-chkPoint |  Controlla se ogni riga di un file termina con un punto.
+-ac | Come sopra, ma in caso dovesse mancare aggiunge un punto.
+-noEmpty | Elimina tutte le righe vuote.
+-capitalize | Rende maiuscola la prima lettera di ogni frase.
+
 ## NOTE
 Il tool è stato testato (dovreste quindi usarlo) SOLO con file di testo (txt o senza estensione se siete sotto Linux).
 Puoi cambiare lingua selezionando il file contenuto nella cartella "lang".<br>
