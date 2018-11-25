@@ -14,7 +14,7 @@ usage: ./common-voice-tool <options>
 \t\t(it doesn't add them, just check)
 \t-ac
 \t\tAdd a dot if a file's row is not ending with a dot.
-\t-no-empty
+\t-noEmpty
 \t\tTrim all the empty lines.
 Welcome to common-voice-tool!
 -------------------------------
