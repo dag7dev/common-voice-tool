@@ -220,7 +220,7 @@ function chkPoint() {
 function trim () {
 	if [ "$2" == "-noEmpty" ];then
 		# trim righe vuote
-		sed -i '/^\s*$/d' $1
+		sed -i -r '/^\s*$/d' $1
 	else
 		# trim spazi fine frase
 		sed -i 's/[ ]*$//' $1		
