@@ -20,8 +20,13 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+# STABLE RELEASE: 0.4.2
+
 # declaration of array for multilanguage
 declare -a language
+
+# variables
+fileL="$1"
 
 function printHelp(){
 	for i in `seq 1 18`
@@ -31,34 +36,52 @@ function printHelp(){
 
 	echo -e ${language[47]}
 	echo -e ${language[48]}
+	echo -e ${language[49]}
+	echo -e ${language[50]}
 }
 
 function chooseLanguage(){
 	# LANGUAGE EXPERIMENTAL
-	mkdir -p lang
+	if [ ! -d "lang" ];then
+		echo "Directory 'lang' not found!"
+		echo
+		echo "You need to have a 'lang' directory into the folder where you are running"
+		echo "this script and at least one translation file"
+		echo
+		echo "You can retrieve official translation files by visiting:"
+		echo "https://github.com/dag7dev/common-voice-tool"
+		
+		exit 1
+	fi
 
-	# l'utente sceglie che lingua utilizzare
-	echo "Choose your language:"
+	if [ -z "$(ls -A lang)" ];then
+		echo "Error! Please download a translation file for this tool"
+		echo "and put it in 'lang' folder!"
+		echo ""
+		echo "You can retrieve official translation files by visiting:"
+		echo "https://github.com/dag7dev/common-voice-tool"
+		exit 1
+	fi
 
 	cd lang
 
-	ls | cut -d ' ' -f9
-
-	read -e -p "Your choice:" fileL
-
 	# controlla se il file non esiste
-	if [[ ! -f "$fileL" ]]; then
-		echo "Language file not found! Exiting..."
+	if [[ ! -f "$1" ]]; then
+		echo "Language file not found!"
+		echo "for help: ./common-voice-tool.sh languageCode"
+		echo "example: ./common-voice-tool.sh en"
+		echo
+		echo "Exiting..."
 	exit 1
 	fi
 
 	# rows in translation file
-	rowsLanguage=`wc -l $fileL | cut -d ' ' -f1`
+	rowsLanguage=`wc -l $1 | cut -d ' ' -f1`
 
 	#load array with every row of the specified file
 	for i in `seq 1 $rowsLanguage`
 	do
-		language[$i]=`sed -n "$i"p "$fileL"`
+		language[$i]=`sed -n "$i"p "$1"`
 	done
 
 	cd ..
@@ -179,7 +202,7 @@ function chkPoint() {
 
 	echo
 	echo -n "${language[36]}"
-	if [ "$2" == "-ac" ];then
+	if [ "$2" == "-ac" ] || [ "$2" == "-all" ];then
 		echo "ON"
 	else
 		echo "OFF"
@@ -204,9 +227,10 @@ function chkPoint() {
 					echo "${language[24]}$i -"
 
 					# Se non presente il punto a fine frase lo aggiunge.
-					if [ "$2" == "-ac" ];then
+					if [ "$2" == "-ac" ] || [ "$2" == "-all" ];then
 						echo "${language[38]}"
-						sed -i "${i}s/$/./" "$fileN"
+						sed "${i}s/$/./" "$fileN" >> "$fileN".tmp
+						mv "$fileN".tmp "$fileN"
 					fi
 
 					;;
@@ -220,11 +244,13 @@ function chkPoint() {
 function trim () {
 	if [ "$2" == "-noEmpty" ];then
 		# trim righe vuote
-		sed -i -r '/^\s*$/d' $1
+		grep -v '^$' "$fileN" >> "$fileN".tmp
 	else
 		# trim spazi fine frase
-		sed -i 's/[ ]*$//' $1		
+		sed 's/[ ]*$//' "$fileN" >> "$fileN".tmp
 	fi
+	
+	mv "$fileN".tmp "$fileN"
 }
 
 # given a string: capitalize it
@@ -243,46 +269,13 @@ function capitalizeF(){
 	mv "$fileN".tmp "$fileN"
 }
 
-#######################
-# LAUNCHER PRINCIPALE #
-#######################
-# check folder and file for strings (translation)
-if [ ! -d "lang" ];then
-	echo "Directory 'lang' not found!"
-	echo
-	echo "You need to have a 'lang' directory into the folder where you are running"
-	echo "this script and at least one translation file"
-	echo
-	echo "You can retrieve official translation files by visiting:"
-	echo "https://github.com/dag7dev/common-voice-tool"
-	
-	exit 1
-fi
+chooseLanguage $1
 
-if [ -z "$(ls -A lang)" ];then
-	echo "Error! Please download a translation file for this tool"
-	echo "and put it in 'lang' folder!"
-	echo ""
-	echo "You can retrieve official translation files by visiting:"
-	echo "https://github.com/dag7dev/common-voice-tool"
-	exit 1
-fi
 
-if [ -z "$1" -o "$1" == "-h" -o "$1" == "-help" ];then
-	clear
-
-	chooseLanguage
-
-	clear
-
+if [ -z "$2" ];then
 	printHelp
-
-	exit 1
+	exit 0
 fi
-
-clear
-
-chooseLanguage
 
 clear
 
@@ -299,10 +292,12 @@ do
     	"-range"|"-chkLen")
 			echo "RANGE"
 			echo "--------"
+			rows=`wc -l $fileN | cut -d ' ' -f1`
 			promptMaxMinUser
 			echo "${language[39]}"
 			areStrsInRange $rows;
 			echo
+			pressEnter
 		;;
 		
 		# eliminare spazi a fine riga
@@ -312,6 +307,7 @@ do
 			trim $fileN
 			echo "${language[40]}"
 			echo
+			pressEnter
 		;;
 		
 		"-noEmpty")
@@ -320,6 +316,7 @@ do
 			trim $fileN $var
 			echo "${language[41]}"
 			echo
+			pressEnter
 		;;
 
 		# controllare il punto a fine frase
@@ -328,6 +325,7 @@ do
 			echo "--------"
 			chkPoint .
 			echo
+			pressEnter
     	;;
     	
     	# autoCorrezionePunto: aggiunge il punto
@@ -336,6 +334,7 @@ do
 			echo "---------------"
 			chkPoint . "$var"
 			echo
+			pressEnter
 		;;
 
 		# capitalizza
@@ -344,15 +343,65 @@ do
 			echo "---------------"
 			capitalizeF
 			echo
+			pressEnter
 		;;
+
+		"-all")
+			echo "TRIM"
+			echo "--------"
+			trim $fileN
+			echo "${language[40]}"
+			echo
+			pressEnter
+			
+			clear
+
+			echo "NO-EMPTY"
+			echo "--------"
+			trim $fileN "-noEmpty"
+			echo "${language[41]}"
+			echo
+			pressEnter
+
+			clear
+
+			rows=`wc -l $fileN | cut -d ' ' -f1`
+
+			echo "CAPITALIZE"
+			echo "---------------"
+			capitalizeF
+			echo
+			pressEnter
+
+			clear
+
+			echo "AUTOCORREZIONE"
+			echo "---------------"
+			chkPoint . "$var"
+			echo
+			pressEnter
+
+			clear
+
+			echo "RANGE"
+			echo "--------"
+			promptMaxMinUser
+			echo "${language[39]}"
+			areStrsInRange $rows;
+			echo
+			pressEnter
+		;;			
 		
+		"$fileL")
+		;;
+
 		*)
 			echo "${language[42]} $var ${language[43]}"
 			echo "${language[44]}"
+
+			pressEnter
 		;;
     esac
-
-    pressEnter
 done
 
 echo "${language[45]}"

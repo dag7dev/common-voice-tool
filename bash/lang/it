@@ -2,8 +2,8 @@ common-voice-tool
 -----------------
 Copyright (C) 2018 dag7
 -----------------
-utilizzo: ./common-voice-tool <options>
-\t-h or -help
+utilizzo: ./common-voice-tool <languageCode> <parameteres>
+\t-h
 \t\tMostra questo messaggio
 \t-range or -chkLen
 \t\tControlla se la lunghezza della stringa è in un range.
@@ -46,3 +46,5 @@ Grazie per aver utilizzato common-voice-tool! ;)
 Visita la pagina del progetto github.com/dag7dev/common-voice-tool
 \t-capitalize
 \t\tRende maiuscola la prima lettera di ogni frase.
+\t-all
+\t\tEsegue tutte le operazioni possibile che il tool e' in grado di fare

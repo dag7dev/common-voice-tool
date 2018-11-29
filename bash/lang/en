@@ -46,3 +46,5 @@ Thanks for using common-voice-tool! ;)
 Visit the official project page: github.com/dag7dev/common-voice-tool
 \t-capitalize
 \t\tCapitalize every single character at the beginning of every sentence.
+\t-all
+\t\tIt performs every operation. Easy! ;)
