@@ -6,8 +6,8 @@ GUI - Coming soon!<br>
 
 ## Preliminary operations
 
-**NOTE: THIS IS BETA VERSION!**<br>
 **LAST BETA: v0.4.1**
+**LAST STABLE: v0.4.2**
 
 You need to clone this repo:
 ```
@@ -22,7 +22,7 @@ git clone --single-branch -b beta https://github.com/dag7dev/common-voice-tool
 
 ```
 cd common-voice-tool
-cd BASH
+cd Bash
 sudo chmod 755 common-voice-tool.sh
 ```
 
@@ -49,7 +49,7 @@ It also notifies you whether some sentences exceed the 125 characters length (do
 If you run the bash script without parameters you will get this (after language selection):
 ```
 ./common-voice-tool
-usage: ./common-voice-tool <options>
+usage: ./common-voice-tool <language-code> <options>
   -h or -help
     	Show this message
   -range or -chkLen
@@ -64,12 +64,14 @@ usage: ./common-voice-tool <options>
       Remove all the empty lines.
   -capitalize
       Capitalize the first character of every sentence.
+  -all
+      It performs everything listed! Probably using just this option will be what are you looking for ;)
 ```
 
-To run this script you need to include at least one parameter.<br>
+To run this script you need to include your language code and at least one parameter.<br>
 For example: 
 ```
-./common-voice-tool -range
+./common-voice-tool en -range
 ```
 will check if there are lines in the file which exceed a maximum length. <br>
 
@@ -78,7 +80,7 @@ You don't need to pass the filename as a parameter, as the script will prompt yo
 You can run this script with multiple parameters.<br>
 As an example:
 ```
-./common-voice-tool -range -noEmpty
+./common-voice-tool en -range -noEmpty
 ```
 will check if there are lines exceeding a maximum length and remove all the empty lines.
 
@@ -93,6 +95,7 @@ Parameter | What does it do
 -ac | same as above but it will add the dot if it's missing.
 -noEmpty | Remove all the empty lines.
 -capitalize | Capitalize the first character of every sentence.
+-all | It performs every operation listed here!
 
 ## NOTES
 This script MUST be used ONLY with plain TEXT files.<br>
@@ -100,9 +103,12 @@ You can select your language by selecting the right country-code when you run th
 'lang' folder must exists and at least one file must be into the folder.
 
 ## What branch should I use?
-The beta one is "experimental", I always update this branch.
-The master one, even though I thought about using it only, is unstable.
-Until the beta becomes stable, I won't push to master and there won't be a release.
+The beta one is "experimental", I always update this branch. <br>
+
+Until the beta becomes stable, I won't push to master and there won't be a release.<br>
+
+In future, branches management may change.
+
 
 ## WIP
 
