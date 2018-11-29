@@ -6,8 +6,8 @@ GUI - Coming soon!<br>
 
 ## Preliminary operations
 
-**NOTE: THIS IS BETA VERSION!**<br>
-**LAST BETA: v0.4.1**
+**STABLE VERSIONI!**<br>
+**LAST BETA: v0.4.2**
 
 You need to clone this repo:
 ```
@@ -48,12 +48,14 @@ usage: ./common-voice-tool <options>
       Remove all the empty lines.
   -capitalize
       Capitalize every single character at the beginning of every sentence.
+  -all
+      It performs every operation. Easy :)
 ```
 
 To run this script you need to include at least one parameter.<br>
 For example: 
 ```
-./common-voice-tool -range
+./common-voice-tool en -range
 ```
 will perform a check if a row's length is in a range. <br>
 
@@ -62,9 +64,11 @@ You no need to pass the filename as parameter as the script will prompt you to c
 You can run this script with multiple parameters.<br>
 As example:
 ```
-./common-voice-tool -range -noEmpty
+./common-voice-tool en -range -noEmpty
 ```
-will check if a row's length is in a range and it will remove all the empty lines.
+will check if a row's length is in a range and it will remove all the empty lines.<br>
+
+You need to put "en" as the first parameter or wheatever is your language code, if not, it won't work!
 
 ## LIST OF PARAMETERS
 Parameter | What does it do
@@ -77,6 +81,7 @@ Parameter | What does it do
 -ac | same as above but it will add if it's missing
 -noEmpty | Remove all the empty lines.
 -capitalize | Capitalize every single character at the beginning of every sentence.
+-all | It performs every operation
 
 ## NOTES
 This script MUST be used JUST with plain TEXT files.<br>
