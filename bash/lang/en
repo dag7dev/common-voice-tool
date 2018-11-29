@@ -1,0 +1,50 @@
+common-voice-tool
+-----------------
+Copyright (C) 2018 dag7
+-----------------
+usage: ./common-voice-tool <options>
+\t-h or -help
+\t\tShow this message
+\t-range or -chkLen
+\t\tCheck if a row's length is in a range
+\t-trim
+\t\tTrim whitespace at the end of the lines.
+\t-chkPoint
+\t\tCheck if every file's row ends with a dot
+\t\t(it doesn't add them, just check)
+\t-ac
+\t\tAdd a dot if a file's row is not ending with a dot.
+\t-noEmpty
+\t\tTrim all the empty lines.
+Welcome to common-voice-tool!
+-------------------------------
+Choose your file:
+File not found!
+Rows number: 
+ - Row: 
+ - 
+Too long! Number of character above the maximum allowed:
+Too short! Number of character above the minimum allowed:
+Press [ENTER] to continue
+Syntax error!
+run: ./common-voice-tool -h
+Do you wanna set default values? [S/N]: 
+Enter the minimum value of the range:
+Enter the maximum value of the range:
+Invalid input!
+Range values will be set to default ones!(1-125)
+Self-correction mode: 
+The dot should be added at:
+Adding...
+Is it in range?:
+Whitespace deleted!
+Empty rows deleted!
+The option: 
+ is invalid!
+Have you misspelled something? ;)
+Thanks for using common-voice-tool! ;)
+Visit the official project page: github.com/dag7dev/common-voice-tool
+\t-capitalize
+\t\tCapitalize every single character at the beginning of every sentence.
+\t-all
+\t\tIt performs every operation. Easy! ;)
