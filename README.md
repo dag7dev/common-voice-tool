@@ -6,7 +6,6 @@ GUI - Coming soon!<br>
 
 ## Preliminary operations
 
-**LAST BETA: v0.4.1**
 **LAST STABLE: v0.4.2**
 
 You need to clone this repo:
